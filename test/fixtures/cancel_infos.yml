@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type_str: MyString 
+  date_str: MyString
+  date: 2016-08-27 20:15:00
+  altdate_str: MyString
+  classroom: MyString
+  department: MyString
+  teacher: MyString
+
+two:
+  type_str: MyString 
+  date_str: MyString
+  date: 2016-08-27 20:15:00
+  altdate_str: MyString
+  classroom: MyString
+  department: MyString
+  teacher: MyString
