@@ -2,12 +2,13 @@ require 'open-uri'
 require 'nokogiri'
 
 class CancelInfoController < ApplicationController
+  # GET /cancel_info/:id
   def show
     grade = params[:id]
     cache = CancelInfo.find_by(grade: grade)
 
     # Update cache if cache is not found, or cache's timestamp is yesterday
-    if cache.nil? || yesterday?(cache.updated_at)
+    if cache.nil? || cache.last_update_is_yesterday?
       CancelInfo.where(grade: grade).destroy_all
       json = get_cancel_info(grade: grade)
       json.each do |item|
@@ -16,8 +17,8 @@ class CancelInfoController < ApplicationController
           type_str:    item['type_str'],
           date_str:    item['date_str'],
           date:        CancelInfo.parse_date_str(item['date_str']),
-          altdate_str: item['date_str'],
-          altdate:     CancelInfo.parse_date_str(item['date_str']),
+          altdate_str: item['altdate_str'],
+          altdate:     CancelInfo.parse_date_str(item['altdate_str']),
           classroom:   item['classroom'],
           department:  item['department'],
           teacher:     item['teacher'],
@@ -29,12 +30,38 @@ class CancelInfoController < ApplicationController
     render json: CancelInfo.where(grade: grade)
   end
 
+  # --- private methods ---
+
   private
-    def get_cancel_info(hash = {})
+    # return url refers to given grade canceled class info
+    # e.g.
+    #   get_url(grade: 1) # => "http://www.nagano-nct.ac.jp/current/cancel_info_1st.php"
+    #
+    def get_url(hash = {})
       grade = hash[:grade].to_s
       grade_map = {"1" => "1st", "2" => "2nd", "3" => "3rd", "4" => "4th", "5" => "5th"}
       grade_str = grade_map[grade]
-      url = "http://www.nagano-nct.ac.jp/current/cancel_info_#{grade_str}.php"
+      "http://www.nagano-nct.ac.jp/current/cancel_info_#{grade_str}.php"
+    end
+
+    # return array of hash which has attributes 'grade', 'subject', 'date', etc...
+    # e.g.
+    #   get_cancel_info(grade: 1)
+    #   # => [
+    #          { "grade" => "1",
+    #            "type_str" => "補講",
+    #            "date_str" => "2017年01月23日[1-2時限]",
+    #            :
+    #          },
+    #          { "grade" => "1",
+    #            "type_str" => "休講",
+    #            :
+    #          }
+    #        ]
+    #
+    def get_cancel_info(hash = {})
+      grade = hash[:grade].to_s
+      url = get_url(grade: grade)
 
       nokogiri_nodes = Nokogiri::HTML(open(url)).css('div.main table.cancel')
       nokogiri_nodes.map do |table|
@@ -62,9 +89,4 @@ class CancelInfoController < ApplicationController
       end
     end
 
-    def yesterday?(datetime)
-      from = (Time.zone.now - 1.day).beginning_of_day
-      to   = (Time.zone.now).beginning_of_day
-      Time.zone.now.between?(from, to)
-    end
 end
