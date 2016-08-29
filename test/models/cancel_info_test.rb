@@ -72,7 +72,7 @@ class CancelInfoTest < ActiveSupport::TestCase
   test "CancelInfo.parse_date_str should parse correctly" do
     date_str = "2017年01月23日[1-2時限]"
     assert_equal(
-      Time.zone.local(2017, 1, 23, *CancelInfo.periods[1]),
+      Time.zone.local(2017, 1, 23, 8, 50),
       CancelInfo.parse_date_str(date_str)
     )
   end

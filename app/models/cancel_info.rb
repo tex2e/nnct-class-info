@@ -22,7 +22,7 @@ class CancelInfo < ApplicationRecord
       return nil if m.nil?
       year = m[1]
       year, month, day, period = m[1..4].map(&:to_i)
-      hour, minute = self.periods[period]
+      hour, minute = self.period(period)
 
       Time.zone.local(year, month, day, hour, minute)
     end
@@ -31,6 +31,11 @@ class CancelInfo < ApplicationRecord
     def periods
       # [[hour, minute]]
       [ [8, 50], [9, 40], [10, 30], [11, 20], [12, 50], [13, 40], [14, 30], [15, 20] ]
+    end
+
+    # return a pair of hour and minute which represent start time of given n period
+    def period(n)
+      self.periods[n - 1]
     end
   end
 
