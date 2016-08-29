@@ -16,7 +16,6 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-!/tmp/nnct-cancel-info-data
 
 # Ignore Byebug command history file.
 .byebug_history
