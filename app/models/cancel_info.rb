@@ -41,9 +41,7 @@ class CancelInfo < ApplicationRecord
 
   # --- instance methods ---
 
-  def last_update_is_yesterday?
-    from = (Time.zone.now - 1.day).beginning_of_day
-    to   = (Time.zone.now).beginning_of_day
-    self.updated_at.between?(from, to)
-  end
+  # def last_update_is_yesterday?
+  #   self.updated_at.is_yesterday?
+  # end
 end

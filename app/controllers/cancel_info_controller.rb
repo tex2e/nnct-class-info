@@ -2,17 +2,27 @@ require 'open-uri'
 require 'nokogiri'
 
 class CancelInfoController < ApplicationController
+  using CancelInfoHelper
+
   # GET /cancel_info/:id
   def show
     grade = params[:id]
     update_cache_if_needed(grade: grade)
 
-    render json: CancelInfo.where(grade: grade)
+    json = JSON.parse( CancelInfo.where(grade: grade).to_json )
+    json.map! { |e| e.delete("id"); e } # delete "id" key
+    render json: json
   end
 
   # GET /cancel_info/:id/only_tomorrow
   def show_only_tomorrow
-    #
+    grade = params[:id]
+    update_cache_if_needed(grade: grade)
+
+    json = JSON.parse( CancelInfo.where(grade: grade).to_json )
+    json.map! { |item| item.delete("id"); item } # delete "id" key
+    json.select! { |item| Time.zone.parse(item["date"]).tomorrow? } # select only tomorrow item
+    render json: json
   end
 
   # --- private methods ---
@@ -80,7 +90,7 @@ class CancelInfoController < ApplicationController
       grade = hash[:grade].to_s
       cache = CancelInfo.find_by(grade: grade)
 
-      if cache.nil? || cache.last_update_is_yesterday?
+      if cache.nil? || cache.updated_at.yesterday?
         CancelInfo.where(grade: grade).destroy_all
         json = get_cancel_info(grade: grade)
         json.each do |item|
