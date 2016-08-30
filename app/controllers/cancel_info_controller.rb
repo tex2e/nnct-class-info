@@ -5,29 +5,14 @@ class CancelInfoController < ApplicationController
   # GET /cancel_info/:id
   def show
     grade = params[:id]
-    cache = CancelInfo.find_by(grade: grade)
-
-    # Update cache if cache is not found, or cache's timestamp is yesterday
-    if cache.nil? || cache.last_update_is_yesterday?
-      CancelInfo.where(grade: grade).destroy_all
-      json = get_cancel_info(grade: grade)
-      json.each do |item|
-        CancelInfo.create!(
-          grade:       grade,
-          type_str:    item['type_str'],
-          date_str:    item['date_str'],
-          date:        CancelInfo.parse_date_str(item['date_str']),
-          altdate_str: item['altdate_str'],
-          altdate:     CancelInfo.parse_date_str(item['altdate_str']),
-          classroom:   item['classroom'],
-          department:  item['department'],
-          teacher:     item['teacher'],
-          note:        item['note']
-        )
-      end
-    end
+    update_cache_if_needed(grade: grade)
 
     render json: CancelInfo.where(grade: grade)
+  end
+
+  # GET /cancel_info/:id/only_tomorrow
+  def show_only_tomorrow
+    #
   end
 
   # --- private methods ---
@@ -89,4 +74,29 @@ class CancelInfoController < ApplicationController
       end
     end
 
+    # Update cache if cache is not found, or cache's timestamp is yesterday
+    #
+    def update_cache_if_needed(hash = {})
+      grade = hash[:grade].to_s
+      cache = CancelInfo.find_by(grade: grade)
+
+      if cache.nil? || cache.last_update_is_yesterday?
+        CancelInfo.where(grade: grade).destroy_all
+        json = get_cancel_info(grade: grade)
+        json.each do |item|
+          CancelInfo.create!(
+            grade:       grade,
+            type_str:    item['type_str'],
+            date_str:    item['date_str'],
+            date:        CancelInfo.parse_date_str(item['date_str']),
+            altdate_str: item['altdate_str'],
+            altdate:     CancelInfo.parse_date_str(item['altdate_str']),
+            classroom:   item['classroom'],
+            department:  item['department'],
+            teacher:     item['teacher'],
+            note:        item['note']
+          )
+        end
+      end
+    end
 end
