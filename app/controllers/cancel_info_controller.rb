@@ -7,6 +7,7 @@ class CancelInfoController < ApplicationController
   # GET /cancel_info/:id
   def show
     grade = params[:id]
+
     update_cache_if_needed(grade: grade)
 
     json = JSON.parse( CancelInfo.where(grade: grade).to_json )
@@ -17,7 +18,9 @@ class CancelInfoController < ApplicationController
   # GET /cancel_info/:id/only_tomorrow
   def show_only_tomorrow
     grade = params[:id]
-    update_cache_if_needed(grade: grade)
+    test_mode = params[:test]
+
+    update_cache_if_needed(grade: grade, test: test_mode)
 
     json = JSON.parse( CancelInfo.where(grade: grade).to_json )
     json.map! { |item| item.delete("id"); item } # delete "id" key
@@ -34,9 +37,15 @@ class CancelInfoController < ApplicationController
     #
     def get_url(hash = {})
       grade = hash[:grade].to_s
+      test_mode = params[:test]
+
       grade_map = {"1" => "1st", "2" => "2nd", "3" => "3rd", "4" => "4th", "5" => "5th"}
       grade_str = grade_map[grade]
-      "http://www.nagano-nct.ac.jp/current/cancel_info_#{grade_str}.php"
+      if test_mode
+        "http://localhost:3000/cancel_info_test_data/cancel_info_#{grade_str}.html"
+      else
+        "http://www.nagano-nct.ac.jp/current/cancel_info_#{grade_str}.php"
+      end
     end
 
     # return array of hash which has attributes 'grade', 'subject', 'date', etc...
@@ -56,7 +65,8 @@ class CancelInfoController < ApplicationController
     #
     def get_cancel_info(hash = {})
       grade = hash[:grade].to_s
-      url = get_url(grade: grade)
+      test_mode = params[:test]
+      url = get_url(grade: grade, test: test_mode)
 
       nokogiri_nodes = Nokogiri::HTML(open(url)).css('div.main table.cancel')
       nokogiri_nodes.map do |table|

@@ -41,7 +41,5 @@ class CancelInfo < ApplicationRecord
 
   # --- instance methods ---
 
-  # def last_update_is_yesterday?
-  #   self.updated_at.is_yesterday?
-  # end
+  #
 end

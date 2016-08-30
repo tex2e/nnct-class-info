@@ -5,6 +5,8 @@ class CancelInfoControllerTest < ActionDispatch::IntegrationTest
     (1..5).each do |grade|
       get "/cancel_info/#{grade}"
       assert_response :success
+      get "/cancel_info/#{grade}/only_tomorrow"
+      assert_response :success
     end
   end
 end
