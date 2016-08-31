@@ -5,6 +5,7 @@ NnctClassInfo (β version)
 のページから休講情報と補講情報を取り出すAPI群を提供しています。
 
 現在のホスト名は、http://nnct.herokuapp.com です。
+heroku なので初めてアクセスするときにレスポンスが返ってくるまで長く待たされる場合があります。
 
 
 URL
