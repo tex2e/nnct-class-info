@@ -17,9 +17,9 @@ APIs
     + Attributes (objects of array)
         + type_str: 休講 or 補講 (string)
         + date_str: 20xx年xx月xx日\[a-b時限] (string) -- 対象となる日付
-        + date: 20xx-xx-xxT08:50:00.000+09:00 -- 対象となる日付の ISO 8601 拡張形式（moment.jsなどでパース可能）
+        + date: 20xx-xx-xxTxx:xx:00.000+09:00 -- 対象となる日付の ISO 8601 拡張形式（moment.jsなどでパース可能）
         + altdate_str: 20xx年xx月xx日\[a-b時限] (string) -- 代わりの日付
-        + altdate: 20xx-xx-xxT08:50:00.000+09:00 -- 代わりの日付の ISO 8601 拡張形式
+        + altdate: 20xx-xx-xxTxx:xx:00.000+09:00 -- 代わりの日付の ISO 8601 拡張形式（moment.jsなどでパース可能）
         + subject: xxxx\[c年d科] (string) -- 科目名
         + department: 電子情報工学科 (string) -- 学科名
         + classroom: n番教室 (string) -- 教室名
