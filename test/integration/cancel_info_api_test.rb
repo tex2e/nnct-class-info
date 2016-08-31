@@ -1,17 +1,6 @@
 require 'test_helper'
 
-# # refinement
-# module CancelInfoControllerExtender
-#   refine CancelInfoController do
-#     @@url = -> grade { "../../public/cancel_info_test_data/cancel_info_#{grade}.html" }
-#   end
-# end
-
-
-# IntegrationTest
 class CancelInfoApiTest < ActionDispatch::IntegrationTest
-  # using CancelInfoControllerExtender
-
   test "should get all canceled info of specified grade" do
     grade = 3
     get "/cancel_info/#{grade}"
