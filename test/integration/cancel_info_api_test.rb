@@ -3,12 +3,7 @@ require 'test_helper'
 # # refinement
 # module CancelInfoControllerExtender
 #   refine CancelInfoController do
-#     def get_url(hash = {})
-#       grade = hash[:grade].to_s
-#       grade_map = {"1" => "1st", "2" => "2nd", "3" => "3rd", "4" => "4th", "5" => "5th"}
-#       grade_str = grade_map[grade]
-#       "http://localhost:3000/cancel_info_test_data/cancel_info_#{grade_str}.html"
-#     end
+#     @@url = -> grade { "../../public/cancel_info_test_data/cancel_info_#{grade}.html" }
 #   end
 # end
 
@@ -36,8 +31,17 @@ class CancelInfoApiTest < ActionDispatch::IntegrationTest
 
   test "should get all tomorrow info" do
     grade = 5
-    get "/cancel_info/#{grade}/only_tomorrow", params: { test: true }
-    response_json = JSON.parse(response.body)
-    assert_equal 1, response_json.length
+
+    default_url = CancelInfoController.class_variable_get(:@@url)
+    CancelInfoController.class_variable_set(:@@url, -> grade { "public/cancel_info_test_data/cancel_info_#{grade}.html" })
+
+    # On 2016/8/30, get all info on 2016/8/31
+    Timecop.freeze(Time.local(2016, 8, 30)) do
+      get "/cancel_info/#{grade}/only_tomorrow"
+      response_json = JSON.parse(response.body)
+      assert_equal 1, response_json.length
+    end
+
+    CancelInfoController.class_variable_set(:@@url, default_url)
   end
 end

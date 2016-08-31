@@ -4,12 +4,13 @@ require 'nokogiri'
 class CancelInfoController < ApplicationController
   using CancelInfoHelper
 
+  @@url = -> grade { "http://www.nagano-nct.ac.jp/current/cancel_info_#{grade}.php" }
+
   # GET /cancel_info/:id
   def show
     grade = params[:id]
 
     update_cache_if_needed(grade: grade)
-
     json = JSON.parse( CancelInfo.where(grade: grade).to_json )
     json.map! { |e| e.delete("id"); e } # delete "id" key
     render json: json
@@ -18,10 +19,8 @@ class CancelInfoController < ApplicationController
   # GET /cancel_info/:id/only_tomorrow
   def show_only_tomorrow
     grade = params[:id]
-    test_mode = params[:test]
 
-    update_cache_if_needed(grade: grade, test: test_mode)
-
+    update_cache_if_needed(grade: grade)
     json = JSON.parse( CancelInfo.where(grade: grade).to_json )
     json.map! { |item| item.delete("id"); item } # delete "id" key
     json.select! { |item| Time.zone.parse(item["date"]).tomorrow? } # select only tomorrow item
@@ -37,15 +36,10 @@ class CancelInfoController < ApplicationController
     #
     def get_url(hash = {})
       grade = hash[:grade].to_s
-      test_mode = params[:test]
 
       grade_map = {"1" => "1st", "2" => "2nd", "3" => "3rd", "4" => "4th", "5" => "5th"}
       grade_str = grade_map[grade]
-      if test_mode
-        "http://localhost:3000/cancel_info_test_data/cancel_info_#{grade_str}.html"
-      else
-        "http://www.nagano-nct.ac.jp/current/cancel_info_#{grade_str}.php"
-      end
+      @@url.(grade_str)
     end
 
     # return array of hash which has attributes 'grade', 'subject', 'date', etc...
@@ -65,9 +59,8 @@ class CancelInfoController < ApplicationController
     #
     def get_cancel_info(hash = {})
       grade = hash[:grade].to_s
-      test_mode = params[:test]
-      url = get_url(grade: grade, test: test_mode)
 
+      url = get_url(grade: grade)
       nokogiri_nodes = Nokogiri::HTML(open(url)).css('div.main table.cancel')
       nokogiri_nodes.map do |table|
         hash = {"grade" => grade}
@@ -98,8 +91,8 @@ class CancelInfoController < ApplicationController
     #
     def update_cache_if_needed(hash = {})
       grade = hash[:grade].to_s
-      cache = CancelInfo.find_by(grade: grade)
 
+      cache = CancelInfo.find_by(grade: grade)
       if cache.nil? || cache.updated_at.yesterday?
         CancelInfo.where(grade: grade).destroy_all
         json = get_cancel_info(grade: grade)
