@@ -6,6 +6,19 @@ NnctClassInfo (β version)
 
 現在のホスト名は、http://nnct.herokuapp.com です。
 
+
+URL
+-------
+
+長野高専の補講情報（JSON）
+
+[1年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/1)  
+[2年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/2)  
+[3年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/3)  
+[4年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/4)  
+[5年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/5) 
+
+
 APIs
 -----
 
@@ -51,13 +64,4 @@ APIs
             ]
 
 
-URL
--------
-
-長野高専の補講情報（JSON）
-
-[1年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/1)  
-[2年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/2)  
-[3年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/3)  
-[4年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/4)  
-[5年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/5)  
+ 
