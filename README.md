@@ -17,14 +17,20 @@ URL
 [2年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/2)  
 [3年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/3)  
 [4年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/4)  
-[5年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/5) 
+[5年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/5)
+
+[1年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/1)
+[2年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/2)
+[3年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/3)
+[4年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/4)
+[5年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/5)
 
 
 APIs
 -----
 
 ### GET /cancel_info/{id}
-長野高専の`id`年の補講休講情報を取得します。
+長野高専の`id`年の休講補講情報を取得します。
 
 + Response 200 (application/json)
 
@@ -65,4 +71,11 @@ APIs
             ]
 
 
- 
+### GET /cancel_info/{id}/only_tomorrow
+長野高専の`id`年の「明日の」休講補講情報を取得します。
+
++ Response 200 (application/json)
+    + Attributes (objects of array)
+        + GET /cancel_info/{id} と同じ
+    + Body
+        + GET /cancel_info/{id} と同じ
