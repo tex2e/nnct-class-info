@@ -19,11 +19,11 @@ URL
 [4年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/4)  
 [5年の休講・補講情報](https://nnct.herokuapp.com/cancel_info/5)
 
-[1年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/1)
-[2年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/2)
-[3年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/3)
-[4年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/4)
-[5年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/5)
+[1年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/1/only_tomorrow)  
+[2年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/2/only_tomorrow)  
+[3年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/3/only_tomorrow)  
+[4年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/4/only_tomorrow)  
+[5年の明日の休講・補講情報](https://nnct.herokuapp.com/cancel_info/5/only_tomorrow)  
 
 
 APIs
