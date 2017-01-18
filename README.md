@@ -1,5 +1,5 @@
-NnctClassInfo (β version)
-=========================
+NnctClassInfo
+==============
 
 [長野高専の補講情報](http://www.nagano-nct.ac.jp/current/cancel_info.php)
 のページから休講情報と補講情報を取り出すAPI群を提供しています。
