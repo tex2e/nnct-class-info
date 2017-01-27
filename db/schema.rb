@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20160827111500) do
     t.datetime "date"
     t.string   "altdate_str"
     t.datetime "altdate"
+    t.string   "subject"
     t.string   "classroom"
     t.string   "department"
     t.string   "teacher"

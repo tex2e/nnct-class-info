@@ -3,11 +3,11 @@ class CancelInfo < ApplicationRecord
   validates :type_str, presence: true, inclusion: { in: %w(休講 補講) }
   validates :date_str, presence: true
   validates :date, presence: true
-  validates :altdate_str, presence: true
-  validates :altdate, presence: true
-  validates :classroom, presence: true
-  validates :department, presence: true
-  validates :teacher, presence: true
+  # validates :altdate_str, presence: true
+  # validates :altdate, presence: true
+  # validates :classroom, presence: true
+  # validates :department, presence: true
+  # validates :teacher, presence: true
 
   # --- class methods ---
 

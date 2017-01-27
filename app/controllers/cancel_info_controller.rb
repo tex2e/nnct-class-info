@@ -104,6 +104,7 @@ class CancelInfoController < ApplicationController
             date:        CancelInfo.parse_date_str(item['date_str']),
             altdate_str: item['altdate_str'],
             altdate:     CancelInfo.parse_date_str(item['altdate_str']),
+            subject:     item['subject'],
             classroom:   item['classroom'],
             department:  item['department'],
             teacher:     item['teacher'],
