@@ -50,21 +50,21 @@ APIs
 
             [
                 {
-                    "type": "休講",
-                    "date": "2016年04月18日[5-6時限]",
-                    "alternative": "2016年04月19日[3-4時限]",
+                    "type_str": "休講",
+                    "date_str": "2016年04月18日[5-6時限]",
+                    "altdate_str": "2016年04月19日[3-4時限]",
                     "subject": "電気回路[３年Ｊ科]",
                     "department": "電子情報工学科",
-                    "class_room": "３４番教室",
+                    "classroom": "３４番教室",
                     "teacher": "高専　太郎"
                 },
                 {
-                    "type": "休講",
-                    "date": "2016年04月22日[1-2時限]",
-                    "alternative": "2016年04月13日[7-8時限]",
+                    "type_str": "休講",
+                    "date_str": "2016年04月22日[1-2時限]",
+                    "altdate_str": "2016年04月13日[7-8時限]",
                     "subject": "設計製図II[３年Ｓ科]",
                     "department": "電子制御工学科",
-                    "class_room": "製図室１",
+                    "classroom": "製図室１",
                     "teacher": "高専　花子",
                     "note": "教室に掲示します"
                 }
