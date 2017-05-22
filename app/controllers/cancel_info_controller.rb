@@ -11,9 +11,8 @@ class CancelInfoController < ApplicationController
     grade = params[:id]
 
     update_cache_if_needed(grade: grade)
-    json = JSON.parse( CancelInfo.where(grade: grade).to_json )
-    json.map! { |e| e.delete("id"); e } # delete "id" key
-    render json: json
+    render json: CancelInfo.where(grade: grade).all,
+      :only => [:grade, :type_str, :date, :altdate, :subject, :classroom, :department, :teacher, :note]
   end
 
   # GET /cancel_info/:id/only_tomorrow
@@ -21,10 +20,10 @@ class CancelInfoController < ApplicationController
     grade = params[:id]
 
     update_cache_if_needed(grade: grade)
-    json = JSON.parse( CancelInfo.where(grade: grade).to_json )
-    json.map! { |item| item.delete("id"); item } # delete "id" key
-    json.select! { |item| Time.zone.parse(item["date"]).tomorrow? } # select only tomorrow item
-    render json: json
+    data = JSON.parse(CancelInfo.where(grade: grade).to_json)
+      .select { |item| Time.zone.parse(item["date"]).tomorrow? }
+      .map! { |item| item.delete('id'); item }
+    render json: data
   end
 
   # --- private methods ---
