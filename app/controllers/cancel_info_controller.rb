@@ -30,9 +30,7 @@ class CancelInfoController < ApplicationController
 
   private
     # return url refers to given grade canceled class info
-    # e.g.
-    #   get_url(grade: 1) # => "http://www.nagano-nct.ac.jp/current/cancel_info_1st.php"
-    #
+    # ex) get_url(grade: 1) # => "http://www.nagano-nct.ac.jp/current/cancel_info_1st.php"
     def get_url(hash = {})
       grade = hash[:grade].to_s
 
@@ -42,19 +40,13 @@ class CancelInfoController < ApplicationController
     end
 
     # return array of hash which has attributes 'grade', 'subject', 'date', etc...
-    # e.g.
+    # ex)
     #   get_cancel_info(grade: 1)
-    #   # => [
-    #          { "grade" => "1",
+    #   # => [ { "grade" => "1",
     #            "type_str" => "補講",
-    #            "date_str" => "2017年01月23日[1-2時限]",
-    #            :
-    #          },
+    #            "date_str" => "2017年01月23日[1-2時限]", ... },
     #          { "grade" => "1",
-    #            "type_str" => "休講",
-    #            :
-    #          }
-    #        ]
+    #            "type_str" => "休講", ... } ]
     #
     def get_cancel_info(hash = {})
       grade = hash[:grade].to_s
@@ -86,8 +78,7 @@ class CancelInfoController < ApplicationController
       end
     end
 
-    # Update cache if cache is not found, or cache's timestamp is yesterday
-    #
+    # Update cache if cache is empty, or cache's timestamp is before yesterday
     def update_cache_if_needed(hash = {})
       grade = hash[:grade].to_s
 
