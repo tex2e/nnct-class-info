@@ -93,7 +93,7 @@ class CancelInfoController < ApplicationController
       grade = hash[:grade].to_s
 
       cache = CancelInfo.find_by(grade: grade)
-      if cache.nil? || cache.updated_at.yesterday?
+      if cache.nil? || Date.today - cache.updated_at.to_date >= 1
         CancelInfo.where(grade: grade).destroy_all
         json = get_cancel_info(grade: grade)
         json.each do |item|
