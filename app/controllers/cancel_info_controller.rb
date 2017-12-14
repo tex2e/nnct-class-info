@@ -12,7 +12,7 @@ class CancelInfoController < ApplicationController
 
     update_cache_if_needed(grade: grade)
     render json: CancelInfo.where(grade: grade).all,
-      :only => [:grade, :type_str, :date, :altdate, :subject, :classroom, :department, :teacher, :note]
+      :except => [:id, :created_at, :updated_at]
   end
 
   # GET /cancel_info/:id/only_tomorrow
@@ -22,7 +22,12 @@ class CancelInfoController < ApplicationController
     update_cache_if_needed(grade: grade)
     data = JSON.parse(CancelInfo.where(grade: grade).to_json)
       .select { |item| Time.zone.parse(item["date"]).tomorrow? }
-      .map! { |item| item.delete('id'); item }
+      .map! do |item|
+        item.delete('id')
+        item.delete('created_at')
+        item.delete('updated_at')
+        item
+      end
     render json: data
   end
 

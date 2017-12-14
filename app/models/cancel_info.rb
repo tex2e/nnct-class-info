@@ -39,7 +39,4 @@ class CancelInfo < ApplicationRecord
     end
   end
 
-  # --- instance methods ---
-
-  #
 end
