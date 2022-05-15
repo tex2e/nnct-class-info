@@ -87,3 +87,16 @@ APIs
         + GET /cancel_info/{id} と同じ
     + Body
         + GET /cancel_info/{id} と同じ
+
+
+
+
+---
+
+## Herokuデプロイ方法
+```
+brew tap heroku/brew && brew install heroku
+heroku login
+heroku git:remote -a nnct
+git push heroku master
+```
